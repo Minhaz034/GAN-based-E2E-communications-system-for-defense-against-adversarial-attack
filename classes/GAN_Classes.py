@@ -158,7 +158,7 @@ class GAN_CNN(object):
         W = self.weight_variable((self.M,self.M))
         x = tf.nn.elu(tf.nn.embedding_lookup(W, input)) 
         x = tf.reshape(x,[-1,1,self.M])
-        conv0 = tf.layers.conv1d(x, 16, 6, strides=1, padding='same', data_format='channels_first',
+        conv0 = tf.layers.conv1d(x, 16, 6, strides=1, padding='same', data_format='channels_last',
                              activation=tf.nn.relu, use_bias=True,
                              kernel_initializer=tf.glorot_uniform_initializer(seed=None, dtype=tf.float32),
                              trainable=True)
@@ -173,11 +173,11 @@ class GAN_CNN(object):
         '''The Receiver'''
         with tf.variable_scope("decoder", reuse=reuse):
             reshaped = tf.reshape(input, shape=[-1,1,2,self.n])
-            conv1 = tf.layers.conv2d(reshaped, 16, [2,3], strides=(1, 1), padding='same', name="ds_1",data_format='channels_first',
+            conv1 = tf.layers.conv2d(reshaped, 16, [2,3], strides=(1, 1), padding='same', name="ds_1",data_format='channels_last',
                                  activation=tf.nn.relu, use_bias=True,
                                  kernel_initializer=tf.glorot_uniform_initializer(seed=None, dtype=tf.float32),
                                  trainable=True)
-            conv2 = tf.layers.conv2d(conv1, 8, [2,3], strides=(1, 1), padding='same', name="ds_2",data_format='channels_first',
+            conv2 = tf.layers.conv2d(conv1, 8, [2,3], strides=(1, 1), padding='same', name="ds_2",data_format='channels_last',
                                  activation=tf.nn.relu, use_bias=True,
                                  kernel_initializer=tf.glorot_uniform_initializer(seed=None, dtype=tf.float32),
                                  trainable=True)
@@ -194,12 +194,12 @@ class GAN_CNN(object):
             x= input
               
             
-            conv0 = tf.layers.conv1d(x, 16*8, 6, strides=1, padding='same', name="ge_1",data_format='channels_first',
+            conv0 = tf.layers.conv1d(x, 16*8, 6, strides=1, padding='same', name="ge_1",data_format='channels_last',
                                   activation=tf.nn.relu, use_bias=True,
                                   kernel_initializer=tf.glorot_uniform_initializer(seed=None, dtype=tf.float32),
                                   trainable=True)
             bn0 = tf.layers.batch_normalization(conv0, training=True, name='ge_bn1')
-            conv1 = tf.layers.conv1d(bn0, 16*8, 6, strides=1, padding='same', name="ge_2",data_format='channels_first',
+            conv1 = tf.layers.conv1d(bn0, 16*8, 6, strides=1, padding='same', name="ge_2",data_format='channels_last',
                           activation=tf.nn.relu, use_bias=True,
                           kernel_initializer=tf.glorot_uniform_initializer(seed=None, dtype=tf.float32),
                           trainable=True)
@@ -481,11 +481,11 @@ class GAN_MLP(object):
         with tf.variable_scope("ge", reuse=reuse):
             x= input
           
-            conv0 = tf.layers.conv1d(x, 16, 6, strides=1, padding='same', name="ge_1",data_format='channels_first',
+            conv0 = tf.layers.conv1d(x, 16, 6, strides=1, padding='same', name="ge_1",data_format='channels_last',
                                   activation=tf.nn.relu, use_bias=True,
                                   kernel_initializer=tf.glorot_uniform_initializer(seed=None, dtype=tf.float32),
                                   trainable=True)           
-            conv1 = tf.layers.conv1d(conv0, 16*4, 6, strides=1, padding='same', name="ge_2",data_format='channels_first',
+            conv1 = tf.layers.conv1d(conv0, 16*4, 6, strides=1, padding='same', name="ge_2",data_format='channels_last',
                           activation=tf.nn.relu, use_bias=True,
                           kernel_initializer=tf.glorot_uniform_initializer(seed=None, dtype=tf.float32),
                           trainable=True)

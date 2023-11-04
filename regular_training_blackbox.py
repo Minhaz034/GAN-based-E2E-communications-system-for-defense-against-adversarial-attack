@@ -91,7 +91,7 @@ plt.rcParams['font.family'] = "serif"
 plt.rcParams['font.serif'] = "Times New Roman"
 plt.rcParams.update({'font.size': 12})
 
-
+plt.savefig('regular_training_blackbox.png')
 plt.show()
 
 with open('black_attack_AE-BPSK', 'wb') as f:  # Python 3: open(..., 'wb')

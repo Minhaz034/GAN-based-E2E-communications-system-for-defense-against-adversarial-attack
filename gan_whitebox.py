@@ -103,7 +103,7 @@ plt.rcParams['font.family'] = "serif"
 plt.rcParams['font.serif'] = "Times New Roman"
 plt.rcParams.update({'font.size': 12})
 
-
+plt.savefig('gan_whitebox.png')
 plt.show()
 
 with open('white_attack_GAN-BPSK', 'wb') as f:  # Python 3: open(..., 'wb')

@@ -102,7 +102,7 @@ plt.rcParams['font.serif'] = "Times New Roman"
 plt.rcParams.update({'font.size': 12})
 
 
-
+plt.savefig('regular_training_whitebox.png')
 plt.show()
 
 

@@ -93,6 +93,7 @@ plt.rcParams['font.family'] = "serif"
 plt.rcParams['font.serif'] = "Times New Roman"
 plt.rcParams.update({'font.size': 12})
 
+plt.savefig('gan_blackbox.png')
 plt.show()
 
 

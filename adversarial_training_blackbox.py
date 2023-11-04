@@ -5,6 +5,9 @@ import tensorflow as tf
 import time
 import copy
 import os
+import warnings
+
+warnings.filterwarnings('ignore')
 
 
 # GPU Setting
@@ -89,6 +92,8 @@ plt.rcParams["font.weight"] = "bold"
 plt.rcParams['font.family'] = "serif"
 plt.rcParams['font.serif'] = "Times New Roman"
 plt.rcParams.update({'font.size': 12})
+plt.savefig('adversarial_training_blackbox.png')
+plt.savefig('regular_training_blackbox.png')
 plt.show()
 
 

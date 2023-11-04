@@ -96,7 +96,7 @@ class AE_CNN(object):
         W = self.weight_variable((self.M,self.M))
         x = tf.nn.elu(tf.nn.embedding_lookup(W, input)) 
         x = tf.reshape(x,[-1,1,self.M])
-        conv0 = tf.layers.conv1d(x, 16, 6, strides=1, padding='same', data_format='channels_first',
+        conv0 = tf.layers.conv1d(x, 16, 6, strides=1, padding='same', data_format='channels_last',
                              activation=tf.nn.relu, use_bias=True,
                              kernel_initializer=tf.glorot_uniform_initializer(seed=None, dtype=tf.float32),
                              trainable=True)
@@ -110,11 +110,11 @@ class AE_CNN(object):
     def decoder(self, input, dr_out, is_training):
         '''The Receiver'''
         reshaped = tf.reshape(input, shape=[-1,1,2,self.n])
-        conv1 = tf.layers.conv2d(reshaped, 16, [2,3], strides=(1, 1), padding='same', data_format='channels_first',
+        conv1 = tf.layers.conv2d(reshaped, 16, [2,3], strides=(1, 1), padding='same', data_format='channels_last',
                              activation=tf.nn.relu, use_bias=True,
                              kernel_initializer=tf.glorot_uniform_initializer(seed=None, dtype=tf.float32),
                              trainable=True)
-        conv2 = tf.layers.conv2d(conv1, 8, [2,3], strides=(1, 1), padding='same', data_format='channels_first',
+        conv2 = tf.layers.conv2d(conv1, 8, [2,3], strides=(1, 1), padding='same', data_format='channels_last',
                              activation=tf.nn.relu, use_bias=True,
                              kernel_initializer=tf.glorot_uniform_initializer(seed=None, dtype=tf.float32),
                              trainable=True)

@@ -4,8 +4,8 @@ import numpy as np
 
 def hamming_74(n,k,ebnodbs,num_blocks,p,PSR_dB):
     PSR = 10**(PSR_dB/10)
-    preal = p[:7] 
-    
+    preal = p[:7]
+    preal = preal[0, 0, :]
     
     SNR_dB = ebnodbs  # I think SNR and Eb/No are the same given the way I used them
     SNR = 10**(SNR_dB/10)
@@ -52,8 +52,13 @@ def hamming_74(n,k,ebnodbs,num_blocks,p,PSR_dB):
         # No attack
         y = np.sqrt(2*SNR_Hamming[snr_cntr]) * bpsk + ( np.random.normal(0,1,[n,num_blocks]) )  
         # Adversarial attack
-        y_adv = bpsk + ( (1/np.sqrt(2*SNR_Hamming[snr_cntr]) ) * np.random.normal(0,1,[n,num_blocks]) ) + (  (np.sqrt(n * PSR /2)  * (preal / np.linalg.norm(preal))  ).reshape([n,1]) * np.ones([n,num_blocks]) )
-        
+        #y_adv = bpsk + ( (1/np.sqrt(2*SNR_Hamming[snr_cntr]) ) * np.random.normal(0,1,[n,num_blocks]) ) + (  (np.sqrt(n * PSR /2)  * (preal / np.linalg.norm(preal))  ).reshape([n,1]) * np.ones([n,num_blocks]) )
+
+        y_adv = bpsk + ((1 / np.sqrt(2 * SNR_Hamming[snr_cntr])) * np.random.normal(0, 1, [n, num_blocks])) + (
+                    np.sqrt(n * PSR / 2) * (preal[:, np.newaxis] / np.linalg.norm(preal)) * np.ones([n, num_blocks]))
+
+
+
         # Jamming Attack
         jammer_noise = np.random.normal(0,1,[n,num_blocks])
         y_jam = bpsk + ( (1/np.sqrt(2*SNR_Hamming[snr_cntr]) ) * np.random.normal(0,1,[n,num_blocks]) ) + ( np.sqrt(n * PSR / 2 ) * (1/np.linalg.norm(jammer_noise,axis=0)) * jammer_noise )
